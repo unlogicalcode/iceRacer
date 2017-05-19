@@ -1,0 +1,13 @@
+body
+{
+    font-family: "Lucida Sans Unicode";
+    color: gray;
+    background-color: lightblue;
+}
+
+.game
+{
+    position: fixed;
+    right: 30;
+    top: 20;
+}
