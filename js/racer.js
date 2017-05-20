@@ -62,8 +62,11 @@ function update()
     
         distance += 1;
     
-        bigbarrier.body.velocity.x = -(speed + 420);
-        console.log(bigbarrier.x);
+        bigbarrier.x = -speed;
+        //console.log(bigbarrier.x);
+        
+        smallbarrier.x = -speed;
+        
         if(bigbarrier.x < 0) placeBarriers();
         
         if(cursors.down.isDown && !cursors.up.isDown) vessel.body.velocity.y = (speed + 420); 
@@ -97,4 +100,7 @@ function placeBarriers()
 {
     bigbarrier.destroy();
     bigbarrier = barriers.create(canyon.tilePosition.x+1000, 100, "barrier-big");
+    
+    smallbarrier.destroy();
+    smallbarrier = barriers,create(canyon.tilePosition.x+800, 150, "barrier-small");
 }
