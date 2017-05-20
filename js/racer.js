@@ -8,11 +8,13 @@ function preload()
     game.load.image('canyon', 'assets/canyon.png');
     game.load.image('vessel', 'assets/vessel-snowy.png');
     game.load.image('barrier-big', 'assets/barrier-big.png');
+    game.load.image("barrier-small", "assets/barrier-small.png");
 }
     
 var vessel;
 var canyon;
 var bigbarrier;
+var smallbarrier;
 var barriers;
 function create()
 {
@@ -24,12 +26,16 @@ function create()
     vessel.angle += 90;
     game.physics.arcade.enable(vessel);
     vessel.body.collideWorldBounds = true;
+    vessel.body.allowGravity = false;
     
     barriers = game.add.group();
     barriers.enableBody = true;
     
     bigbarrier = barriers.create(1000, 100, 'barrier-big');
     bigbarrier.body.allowGravity = false;
+    
+    smallbarrier = barriers.create(500, 150, "barrier-small");
+    smallbarrier.body.allowGravity = false;
     
     /*bigbarrier = game.add.sprite(500, 100, 'barrier-big');
     game.physics.arcade.enable(bigbarrier);
@@ -40,41 +46,55 @@ var running = true;
 var distance = 0;
 var cursors;
 var speed = 5;
+var speedFactor = 20;
 function update()
 {
-    if(!running) return;
-    var hit = game.physics.arcade.collide(vessel, barriers, collision(hit));
+    //if(!running) return;
+    //var hit = game.physics.arcade.collide(vessel, barriers, collision, null, this);
     //Dritter parameter der collide funktion ruft eventartig die angebene funktion auf
-    //if(hit) running = false;
-    
+    checkcollision();
     if(running)
     {
+        
         cursors = game.input.keyboard.createCursorKeys();
 
         canyon.tilePosition.x += -speed;
     
         distance += 1;
     
-        bigbarrier.x += -speed;
-
-        if(cursors.down.isDown && !cursors.up.isDown) vessel.body.velocity.y = (speed + 420/*blaze it!*/); 
-        else if(cursors.up.isDown && !cursors.down.isDown) vessel.body.velocity.y = -(speed + 420/*blaze it!*/);
+        bigbarrier.body.velocity.x = -(speed + 420);
+        console.log(bigbarrier.x);
+        if(bigbarrier.x < 0) placeBarriers();
+        
+        if(cursors.down.isDown && !cursors.up.isDown) vessel.body.velocity.y = (speed + 420); 
+        else if(cursors.up.isDown && !cursors.down.isDown) vessel.body.velocity.y = -(speed + 420);
         else if(!cursors.up.isDown && !cursors.up.isDown) vessel.body.velocity.y = 0;
     
         speed += 0.001;
     }
 }
 
-function collision(hit)
+function checkcollision()
 {
+    var hit;
+    
+    var vbounds = vessel.getBounds();
+    var bbounds = bigbarrier.getBounds();
+    
+    hit = Phaser.Rectangle.intersects(vbounds, bbounds);
+    
     if(hit)
     {
         running = false;
         console.log("collision");
+        bigbarrier.body.velocity.x = 0;
     }
+    
+    return hit;
 }
 
 function placeBarriers()
 {
-
+    bigbarrier.destroy();
+    bigbarrier = barriers.create(canyon.tilePosition.x+1000, 100, "barrier-big");
 }

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Procedural Platforms</title>
+        <script type="text/javascript" src="js/phaser.js"></script>
+        <link rel="stylesheet" href="style.css"/>
+    </head>
+    <body>
+        <script type="text/javascript">
+        /*global Phaser*/
+            window.onload = function () {
+
+  var width = 640,
+      height = 8000,
+      platformWidth = 200,
+      sprite,
+      platforms,
+      game = new Phaser.Game(640, 360, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update });
+
+  function preload() {
+    game.load.crossOrigin = 'anonymous';
+    game.load.image('cat', 'http://placekitten.com/g/80/80');
+    game.load.image('top', 'http://placekitten.com/g/640/200');
+    game.load.image('platform', 'http://placekitten.com/g/200/60');
+  }
+
+  function create() {
+    
+    game.input.keyboard.addKeyCapture([
+      Phaser.Keyboard.SPACEBAR,
+      Phaser.Keyboard.UP,
+      Phaser.Keyboard.DOWN
+    ]);
+
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.physics.arcade.gravity.y = 1000;
+    game.world.setBounds(0, 0, width, height);
+    
+    game.add.image(0, 0, 'top');
+
+    sprite = game.add.sprite(280, height - 80, 'cat');
+    game.physics.enable(sprite, Phaser.Physics.ARCADE);
+    sprite.body.allowRotation = false;
+    sprite.body.collideWorldBounds = true;
+    sprite.body.drag.x = 800;
+    game.camera.follow(sprite);
+    
+    platforms = game.add.group();
+    platforms.enableBody = true;
+    platforms.physicsBodyType = Phaser.Physics.ARCADE;
+    
+    var x = 0, y = height - 220;
+    
+    while(y > 200) {
+      var platform = platforms.create(x, y, 'platform');
+      platform.body.immovable = true;
+      platform.body.allowGravity = false;
+      
+      var center = width / 2;
+ 
+      if(x > center) {
+        x = Math.random() * center;
+      }
+      else {
+        x = center + Math.random() * (center - platformWidth);
+      }
+      y = y - 200 - 100 * Math.random();
+    }
+  }
+
+  function update() {
+    game.physics.arcade.collide(sprite, platforms);
+   
+    var blocked = sprite.body.touching.down || sprite.body.blocked.down;
+    if (blocked && game.input.keyboard.isDown(Phaser.Keyboard.UP)){
+      sprite.body.velocity.y = -800;
+    }
+
+    if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+      sprite.body.velocity.x = -300;
+    }
+    else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+      sprite.body.velocity.x = 300;
+    }
+  }
+};
+        </script>
+    </body>
+</html>

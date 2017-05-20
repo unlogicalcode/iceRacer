@@ -1,2 +1,4 @@
 http://examples.phaser.io/_site/view_full.html?d=games&f=invaders.js&t=invaders //Endless Background in Phaser js
 http://stackoverflow.com/questions/26648207/placing-platforms-randomly-in-world-with-phaser //Random sprite placement with parameters for playability
+https://gist.github.com/jboulhous/6007980 //Push from Cloud9 to Github
+https://github.com/c9/c9.ide.run.debug.xdebug //Enable httpd debugging in Cloud9
