@@ -1,7 +1,7 @@
 /*global Phaser*/
 
 //new Phaser.Game(width, height, renderer, parent object, default state, transparent, antialising, physicsConfig)
-var game = new Phaser.Game(484,268,Phaser.CANVAS,'', { preload: preload, create: create, update: update }, true, false);
+var game = new Phaser.Game(484,268,Phaser.CANVAS,'game', { preload: preload, create: create, update: update }, true, false);
     
 function preload()
 {
@@ -102,8 +102,13 @@ function placeBarriers()
 {
     console.log("placebarrier");
     bigbarrier.destroy();
-    bigbarrier = barriers.create(canyon.tilePosition.x+1000, 100, "barrier-big");
+    bigbarrier = barriers.create(canyon.tilePosition.x+getRandomInteger(600,1500), getRandomInteger(0, 268), "barrier-big");
     
     smallbarrier.destroy();
-    smallbarrier = barriers.create(canyon.tilePosition.x+800, 150, "barrier-small");
+    smallbarrier = barriers.create(canyon.tilePosition.x+getRandomInteger(600,1000), getRandomInteger(0, 268), "barrier-small");
+}
+
+function getRandomInteger(min, max)
+{
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
