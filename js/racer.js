@@ -1,7 +1,7 @@
 /*global Phaser*/
 
 //new Phaser.Game(width, height, renderer, parent object, default state, transparent, antialising, physicsConfig)
-var game = new Phaser.Game(484,268,Phaser.CANVAS,'game', { preload: preload, create: create, update: update }, true, false);
+var game = new Phaser.Game(484,268,Phaser.CANVAS,'', { preload: preload, create: create, update: update }, true, false);
     
 function preload()
 {
@@ -62,10 +62,10 @@ function update()
     
         distance += 1;
     
-        bigbarrier.x = -speed;
-        //console.log(bigbarrier.x);
+        bigbarrier.x += -speed;
+        console.log(bigbarrier.x);
         
-        smallbarrier.x = -speed;
+        smallbarrier.x += -speed;
         
         if(bigbarrier.x < 0) placeBarriers();
         
@@ -98,9 +98,10 @@ function checkcollision()
 
 function placeBarriers()
 {
+    console.log("placebarrier");
     bigbarrier.destroy();
     bigbarrier = barriers.create(canyon.tilePosition.x+1000, 100, "barrier-big");
     
     smallbarrier.destroy();
-    smallbarrier = barriers,create(canyon.tilePosition.x+800, 150, "barrier-small");
+    smallbarrier = barriers.create(canyon.tilePosition.x+800, 150, "barrier-small");
 }
