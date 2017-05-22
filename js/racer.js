@@ -102,10 +102,19 @@ function placeBarriers()
 {
     console.log("placebarrier");
     bigbarrier.destroy();
-    bigbarrier = barriers.create(canyon.tilePosition.x+getRandomInteger(600,1500), getRandomInteger(0, 268), "barrier-big");
+    bigbarrier = barriers.create(canyon.tilePosition.x+getRandomInteger(600,1500), getRandomInteger(25, 248), "barrier-big");
     
     smallbarrier.destroy();
-    smallbarrier = barriers.create(canyon.tilePosition.x+getRandomInteger(600,1000), getRandomInteger(0, 268), "barrier-small");
+    smallbarrier = barriers.create(canyon.tilePosition.x+getRandomInteger(600,1000), getRandomInteger(25, 248), "barrier-small");
+    
+    if((smallbarrier.x-bigbarrier.x)<128)
+    {
+        if(!((smallbarrier.x-bigbarrier.x)<-128))
+        {
+            smallbarrier.destroy();
+            smallbarrier = barriers.create(canyon.tilePosition.x+getRandomInteger(600,1000), getRandomInteger(25, 240), "barrier-small");
+        }
+    }
 }
 
 function getRandomInteger(min, max)
