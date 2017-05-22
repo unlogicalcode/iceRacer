@@ -79,21 +79,23 @@ function update()
 
 function checkcollision()
 {
-    var hit;
+    var bighit;
+    var smallhit;
     
     var vbounds = vessel.getBounds();
     var bbounds = bigbarrier.getBounds();
+    var sbounds = smallbarrier.getBounds();
     
-    hit = Phaser.Rectangle.intersects(vbounds, bbounds);
+    bighit = Phaser.Rectangle.intersects(vbounds, bbounds);
+    smallhit = Phaser.Rectangle.intersects(vbounds, sbounds);
     
-    if(hit)
+    if(bighit || smallhit)
     {
         running = false;
         console.log("collision");
-        bigbarrier.body.velocity.x = 0;
     }
     
-    return hit;
+    return (bighit || smallhit);
 }
 
 function placeBarriers()
