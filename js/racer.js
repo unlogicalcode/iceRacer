@@ -64,7 +64,7 @@ function update()
         //console.log(bigbarrier.x);
         
         smallbarrier.x += -speed;
-        console.log(smallbarrier.x);
+        //console.log(smallbarrier.x);
         
         if(bigbarrier.x < 0)
         {
@@ -111,7 +111,8 @@ function checkcollision()
 
 function placeBarrier(big)
 {
-    console.log("barrier.small");
+    if(big) console.log("barrier.big");
+    else console.log("barrier.small");
     
     
     var y = getPlaceY(big);
@@ -181,6 +182,7 @@ function getPlaceY(big)
 
 function getRandomInteger(min, max)
 {
+    /*
     var bool = false;
     var rnd;
     while(!bool)
@@ -188,6 +190,9 @@ function getRandomInteger(min, max)
         rnd = Math.random() * max;
         if(rnd > min) return rnd;
         else bool = false;
-    }
+    }*/
     //return Math.floor(Math.random() * (max - min + 1) + min);
+    var r =  Math.floor( Math.random() * (max + 1 - min) + min );
+    console.log("min:"+min+" out:"+r+" max:"+max);
+    return r;
 }
