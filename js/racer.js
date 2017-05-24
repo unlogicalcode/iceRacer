@@ -67,7 +67,8 @@ function update()
         
         smallbarrier.x += -speed;
         
-        if(bigbarrier.x < 0) placeBarriers();
+        if(bigbarrier.x < 0) placeBarrier(true);
+        if(smallbarrier.y < 0) placeBarrier(false);
         
         if(cursors.down.isDown && !cursors.up.isDown) vessel.body.velocity.y = (speed + 420); 
         else if(cursors.up.isDown && !cursors.down.isDown) vessel.body.velocity.y = -(speed + 420);
@@ -98,23 +99,74 @@ function checkcollision()
     return (bighit || smallhit);
 }
 
-function placeBarriers()
+function placeBarrier(big)
 {
-    console.log("placebarrier");
-    bigbarrier.destroy();
-    bigbarrier = barriers.create(canyon.tilePosition.x+getRandomInteger(600,1500), getRandomInteger(25, 248), "barrier-big");
+    console.log("barrier.small");
     
-    smallbarrier.destroy();
-    smallbarrier = barriers.create(canyon.tilePosition.x+getRandomInteger(600,1000), getRandomInteger(25, 248), "barrier-small");
     
-    if((smallbarrier.x-bigbarrier.x)<128)
+    var y = getPlaceY(big);
+    var x = canyon.tilePosition.x + getPlaceX(big);
+    
+    if(big) 
     {
-        if(!((smallbarrier.x-bigbarrier.x)<-128))
-        {
-            smallbarrier.destroy();
-            smallbarrier = barriers.create(canyon.tilePosition.x+getRandomInteger(600,1000), getRandomInteger(25, 240), "barrier-small");
-        }
+        bigbarrier.destroy();
+        bigbarrier = barriers.create(x,y, "barrier-big");
     }
+    else 
+    {
+        smallbarrier.destroy();
+        smallbarrier = barriers.create(x, y, "barrier-small")
+    }
+}
+
+function getPlaceX(big)
+{
+    var x;
+    
+    if(big == true) x = canyon.tilePosition.x + smallbarrier.x;
+    else x = bigbarrier.x;
+    
+    var nx = canyon.tilePosition.x + getRandomInteger(600,1500);
+    var i = 5;
+    while(i > 0)
+    {
+        if(nx > (x-128))
+        {
+            if(!(nx > (x+128)))
+            {
+                nx = canyon.tilePosition.x + getRandomInteger(600,1500);
+            }
+            else i = 0;
+        }
+        else i = 0;
+        i--;
+    }
+    return nx;
+}
+
+function getPlaceY(big)
+{
+    var y;
+    
+    if(big == true) y = smallbarrier.y;
+    else y = bigbarrier.y;
+    
+    var ny = getRandomInteger(25,240);
+    var i = 5;
+    while(i > 0)
+    {
+        if(ny > (y-128))
+        {
+            if(!(ny > (y+128)))
+            {
+                ny = getRandomInteger(25,240);
+            }
+            else i = 0;
+        }
+        else i = 0;
+        i--;
+    }
+    return ny;
 }
 
 function getRandomInteger(min, max)
