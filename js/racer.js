@@ -63,12 +63,13 @@ function update()
         distance += 1;
     
         bigbarrier.x += -speed;
-        console.log(bigbarrier.x);
+        //console.log(bigbarrier.x);
         
         smallbarrier.x += -speed;
+        console.log(smallbarrier.x);
         
         if(bigbarrier.x < 0) placeBarrier(true);
-        if(smallbarrier.y < 0) placeBarrier(false);
+        if(smallbarrier.x < 0) placeBarrier(false);
         
         if(cursors.down.isDown && !cursors.up.isDown) vessel.body.velocity.y = (speed + 420); 
         else if(cursors.up.isDown && !cursors.down.isDown) vessel.body.velocity.y = -(speed + 420);
@@ -93,6 +94,7 @@ function checkcollision()
     if(bighit || smallhit)
     {
         running = false;
+        vessel.body.velocity.y = 0;
         console.log("collision");
     }
     
