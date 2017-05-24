@@ -16,11 +16,16 @@ var canyon;
 var bigbarrier;
 var smallbarrier;
 var barriers;
+var scoreboard;
+var score;
 function create()
 {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     canyon = game.add.tileSprite(0, 0, 484, 268,'canyon');
+    
+    score = 0;
+    scoreboard = game.add.text( 400,249, "SCORE: 0", { fontSize: '16px', fill: '#4d94ff' })
     
     vessel = game.add.sprite (80, 100, 'vessel');
     vessel.angle += 90;
@@ -36,10 +41,6 @@ function create()
     
     smallbarrier = barriers.create(500, 150, "barrier-small");
     smallbarrier.body.allowGravity = false;
-    
-    /*bigbarrier = game.add.sprite(500, 100, 'barrier-big');
-    game.physics.arcade.enable(bigbarrier);
-    game.physics.arcade.enable(bigbarrier);*/
 }
 
 var running = true;
@@ -49,9 +50,6 @@ var speed = 5;
 var speedFactor = 20;
 function update()
 {
-    //if(!running) return;
-    //var hit = game.physics.arcade.collide(vessel, barriers, collision, null, this);
-    //Dritter parameter der collide funktion ruft eventartig die angebene funktion auf
     checkcollision();
     if(running)
     {
@@ -68,13 +66,23 @@ function update()
         smallbarrier.x += -speed;
         console.log(smallbarrier.x);
         
-        if(bigbarrier.x < 0) placeBarrier(true);
-        if(smallbarrier.x < 0) placeBarrier(false);
+        if(bigbarrier.x < 0)
+        {
+            placeBarrier(true);
+            score++;
+        }
+        
+        if(smallbarrier.x < 0) 
+        {
+            placeBarrier(false);
+            score++;
+        }
         
         if(cursors.down.isDown && !cursors.up.isDown) vessel.body.velocity.y = (speed + 420); 
         else if(cursors.up.isDown && !cursors.down.isDown) vessel.body.velocity.y = -(speed + 420);
         else if(!cursors.up.isDown && !cursors.up.isDown) vessel.body.velocity.y = 0;
-    
+        
+        scoreboard.text = "SCORE: " + score;
         speed += 0.001;
     }
 }
@@ -128,7 +136,7 @@ function getPlaceX(big)
     if(big == true) x = canyon.tilePosition.x + smallbarrier.x;
     else x = bigbarrier.x;
     
-    var nx = canyon.tilePosition.x + getRandomInteger(600,1500);
+    var nx = canyon.tilePosition.x + getRandomInteger(700,1600);
     var i = 5;
     while(i > 0)
     {
@@ -136,7 +144,7 @@ function getPlaceX(big)
         {
             if(!(nx > (x+128)))
             {
-                nx = canyon.tilePosition.x + getRandomInteger(600,1500);
+                nx = canyon.tilePosition.x + getRandomInteger(700,1600);
             }
             else i = 0;
         }
@@ -153,13 +161,13 @@ function getPlaceY(big)
     if(big == true) y = smallbarrier.y;
     else y = bigbarrier.y;
     
-    var ny = getRandomInteger(25,240);
+    var ny = getRandomInteger(25,230);
     var i = 5;
     while(i > 0)
     {
-        if(ny > (y-128))
+        if(ny > (y-32))
         {
-            if(!(ny > (y+128)))
+            if(!(ny > (y+32)))
             {
                 ny = getRandomInteger(25,240);
             }
@@ -173,5 +181,13 @@ function getPlaceY(big)
 
 function getRandomInteger(min, max)
 {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    var bool = false;
+    var rnd;
+    while(!bool)
+    {
+        rnd = Math.random() * max;
+        if(rnd > min) return rnd;
+        else bool = false;
+    }
+    //return Math.floor(Math.random() * (max - min + 1) + min);
 }
