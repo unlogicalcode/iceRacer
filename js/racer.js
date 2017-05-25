@@ -116,7 +116,7 @@ function placeBarrier(big)
     
     
     var y = getPlaceY(big);
-    var x = canyon.tilePosition.x + getPlaceX(big);
+    var x = getPlaceX(big);
     
     if(big) 
     {
@@ -135,7 +135,7 @@ function getPlaceX(big)
     var x;
     
     if(big == true) x = canyon.tilePosition.x + smallbarrier.x;
-    else x = bigbarrier.x;
+    else x = canyon.tilePosition.x +  bigbarrier.x;
     
     var nx = canyon.tilePosition.x + getRandomInteger(700,1600);
     var i = 5;
