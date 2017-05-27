@@ -41,6 +41,11 @@ function create()
     
     smallbarrier = barriers.create(500, 150, "barrier-small");
     smallbarrier.body.allowGravity = false;
+    
+    space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
+    
+    cursors = game.input.keyboard.createCursorKeys();
 }
 
 var running = true;
@@ -48,14 +53,20 @@ var distance = 0;
 var cursors;
 var speed = 5;
 var speedFactor = 20;
+var space;
+var gameover = false;
 function update()
 {
     checkcollision();
+    
+    if(space.isDown) 
+    {
+       if(running) running = false;
+       else if(!gameover) running = true;
+    }
+    
     if(running)
     {
-        
-        cursors = game.input.keyboard.createCursorKeys();
-
         canyon.tilePosition.x += -speed;
     
         distance += 1;
@@ -102,6 +113,7 @@ function checkcollision()
     if(bighit || smallhit)
     {
         running = false;
+        gameover = true;
         vessel.body.velocity.y = 0;
         console.log("collision");
     }

@@ -3,3 +3,4 @@ http://stackoverflow.com/questions/26648207/placing-platforms-randomly-in-world-
 https://gist.github.com/jboulhous/6007980 //Push from Cloud9 to Github
 https://github.com/c9/c9.ide.run.debug.xdebug //Enable httpd debugging in Cloud9
 https://cloud9-sdk.readme.io/docs/running-cloud9-desktop //Cloud9 Offline use
+http://phaser.io/examples/v2/input/keyboard-justpressed //How to use spce key
