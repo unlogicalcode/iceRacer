@@ -56,6 +56,8 @@ function create()
     music.play();
     music.volume = 0.1;
     gosound = game.add.audio("msgo");
+    
+    
 }
 
 var running = false;
