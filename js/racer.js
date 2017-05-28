@@ -48,7 +48,7 @@ function create()
     cursors = game.input.keyboard.createCursorKeys();
 }
 
-var running = true;
+var running = false;
 var distance = 0;
 var cursors;
 var speed = 5;

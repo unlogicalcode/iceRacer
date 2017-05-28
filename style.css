@@ -5,9 +5,16 @@ body
     background-color: lightblue;
 }
 
+.info
+{
+    position: fixed;
+    left: 32em;
+    top: 5em;
+}
+
 .game
 {
     position: fixed;
-    right: 30;
-    top: 20;
+    left: 1em;
+    top: 5em;
 }
