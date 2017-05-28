@@ -9,6 +9,9 @@ function preload()
     game.load.image('vessel', 'assets/vessel-snowy.png');
     game.load.image('barrier-big', 'assets/barrier-big.png');
     game.load.image("barrier-small", "assets/barrier-small.png");
+    
+    game.load.audio('music', "assets/music.wav");
+    game.load.audio("msgo", "assets/gameover.wav");
 }
     
 var vessel;
@@ -18,6 +21,8 @@ var smallbarrier;
 var barriers;
 var scoreboard;
 var score;
+var music;
+var gosound;
 function create()
 {
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -46,6 +51,11 @@ function create()
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
     
     cursors = game.input.keyboard.createCursorKeys();
+    
+    music = game.add.audio("music");
+    music.play();
+    music.volume = 0.1;
+    gosound = game.add.audio("msgo");
 }
 
 var running = false;
@@ -112,13 +122,28 @@ function checkcollision()
     
     if(bighit || smallhit)
     {
-        running = false;
-        gameover = true;
-        vessel.body.velocity.y = 0;
         console.log("collision");
+        endgame();
     }
     
     return (bighit || smallhit);
+}
+
+async function endgame()
+{
+    if(!gameover)
+    {
+        running = false;
+        gameover = true;
+        vessel.body.velocity.y = 0;
+        
+        game.add.text( 40, 97, "GAME OVER", { fontSize: '64px', fill: '#4d94ff' })
+        
+        music.stop();
+        gosound.play();
+        await sleep(2000);
+        gosound.stop();
+    }
 }
 
 function placeBarrier(big)
@@ -207,4 +232,9 @@ function getRandomInteger(min, max)
     var r =  Math.floor( Math.random() * (max + 1 - min) + min );
     console.log("min:"+min+" out:"+r+" max:"+max);
     return r;
+}
+
+function sleep(ms) 
+{
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
