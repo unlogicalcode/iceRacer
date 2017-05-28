@@ -30,7 +30,7 @@ function create()
     canyon = game.add.tileSprite(0, 0, 964, 536,'canyon');
     
     score = 0;
-    scoreboard = game.add.text( 800,498, "SCORE: 0", { fontSize: '16px', fill: '#4d94ff' })
+    scoreboard = game.add.text( 800,498, "SCORE: 0", { fontSize: '32px', fill: '#4d94ff' })
     
     vessel = game.add.sprite (160, 200, 'vessel');
     vessel.angle += 90;
@@ -62,7 +62,7 @@ function create()
 var running = false;
 var distance = 0;
 var cursors;
-var speed = 10;
+var speed = 8;
 var speedFactor = 20;
 var space;
 var gameover = false;
