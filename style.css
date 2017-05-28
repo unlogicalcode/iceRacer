@@ -3,13 +3,14 @@ body
     font-family: "Lucida Sans Unicode";
     color: gray;
     background-color: lightblue;
+    font-size: x-large;
 }
 
 .info
 {
     position: fixed;
-    left: 32em;
-    top: 5em;
+    left: 42em;
+    top: 12em;
 }
 
 .game

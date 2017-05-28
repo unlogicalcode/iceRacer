@@ -1,7 +1,7 @@
 /*global Phaser*/
 
 //new Phaser.Game(width, height, renderer, parent object, default state, transparent, antialising, physicsConfig)
-var game = new Phaser.Game(484,268,Phaser.CANVAS,'game', { preload: preload, create: create, update: update }, true, false);
+var game = new Phaser.Game(964,536,Phaser.CANVAS,'game', { preload: preload, create: create, update: update }, true, false);
     
 function preload()
 {
@@ -27,12 +27,12 @@ function create()
 {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    canyon = game.add.tileSprite(0, 0, 484, 268,'canyon');
+    canyon = game.add.tileSprite(0, 0, 964, 536,'canyon');
     
     score = 0;
-    scoreboard = game.add.text( 400,249, "SCORE: 0", { fontSize: '16px', fill: '#4d94ff' })
+    scoreboard = game.add.text( 800,498, "SCORE: 0", { fontSize: '16px', fill: '#4d94ff' })
     
-    vessel = game.add.sprite (80, 100, 'vessel');
+    vessel = game.add.sprite (160, 200, 'vessel');
     vessel.angle += 90;
     game.physics.arcade.enable(vessel);
     vessel.body.collideWorldBounds = true;
@@ -41,10 +41,10 @@ function create()
     barriers = game.add.group();
     barriers.enableBody = true;
     
-    bigbarrier = barriers.create(1000, 100, 'barrier-big');
+    bigbarrier = barriers.create(2000, 200, 'barrier-big');
     bigbarrier.body.allowGravity = false;
     
-    smallbarrier = barriers.create(500, 150, "barrier-small");
+    smallbarrier = barriers.create(1000, 300, "barrier-small");
     smallbarrier.body.allowGravity = false;
     
     space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -54,16 +54,15 @@ function create()
     
     music = game.add.audio("music");
     music.play();
-    music.volume = 0.1;
+    music.volume = 0.2;
     gosound = game.add.audio("msgo");
-    
-    
+    gosound.volume = 0.3;
 }
 
 var running = false;
 var distance = 0;
 var cursors;
-var speed = 5;
+var speed = 10;
 var speedFactor = 20;
 var space;
 var gameover = false;
@@ -139,7 +138,7 @@ async function endgame()
         gameover = true;
         vessel.body.velocity.y = 0;
         
-        game.add.text( 40, 97, "GAME OVER", { fontSize: '64px', fill: '#4d94ff' })
+        game.add.text( 80, 194, "GAME OVER", { fontSize: '128px', fill: '#4d94ff' })
         
         music.stop();
         gosound.play();
@@ -176,15 +175,15 @@ function getPlaceX(big)
     if(big == true) x = canyon.tilePosition.x + smallbarrier.x;
     else x = canyon.tilePosition.x +  bigbarrier.x;
     
-    var nx = canyon.tilePosition.x + getRandomInteger(700,1600);
+    var nx = canyon.tilePosition.x + getRandomInteger(1400,1600);
     var i = 5;
     while(i > 0)
     {
-        if(nx > (x-128))
+        if(nx > (x-256))
         {
-            if(!(nx > (x+128)))
+            if(!(nx > (x+256)))
             {
-                nx = canyon.tilePosition.x + getRandomInteger(700,1600);
+                nx = canyon.tilePosition.x + getRandomInteger(1400,3200);
             }
             else i = 0;
         }
@@ -201,15 +200,15 @@ function getPlaceY(big)
     if(big == true) y = smallbarrier.y;
     else y = bigbarrier.y;
     
-    var ny = getRandomInteger(25,230);
+    var ny = getRandomInteger(50,420);
     var i = 5;
     while(i > 0)
     {
-        if(ny > (y-32))
+        if(ny > (y-64))
         {
-            if(!(ny > (y+32)))
+            if(!(ny > (y+64)))
             {
-                ny = getRandomInteger(25,240);
+                ny = getRandomInteger(50,420);
             }
             else i = 0;
         }
