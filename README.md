@@ -11,3 +11,5 @@ What i use:
 
 This is my first phaser-Game, I'm also new to advanced JavaScript-Programming.
 So, dont expect too much. The most code written is also not visible anymore ;)
+
+There's a further development Version at https://github.com/jeareise/iceRacerPP
